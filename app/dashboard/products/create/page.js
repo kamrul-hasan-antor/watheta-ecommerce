@@ -26,6 +26,11 @@ export default function CreateProdcut() {
     };
   }, [imageUrl]);
 
+  const errMsjProps = {
+    component: "p",
+    className: "text-red-500 text-sm",
+  };
+
   return (
     <div>
       <h1 className="text-xl font-semibold">Add Products</h1>
@@ -41,7 +46,7 @@ export default function CreateProdcut() {
             {/* Basic info */}
             <div className="border pt-2 pb-3 px-3 mt-3 bg-white dark:bg-sidebar">
               <p>Basic Info</p>
-              <div className="mt-3 grid grid-cols-4 gap-4">
+              <div className="mt-3 grid grid-cols md:grid-cols-4 gap-4">
                 <div>
                   <label className="text-sm block mb-2 text-gray-600 dark:text-gray-300">
                     Product Name
@@ -52,11 +57,7 @@ export default function CreateProdcut() {
                     placeholder="Product Name"
                     className="rounded"
                   />
-                  <ErrorMessage
-                    name="productName"
-                    component="p"
-                    className="text-red-500 text-sm"
-                  />
+                  <ErrorMessage name="productName" {...errMsjProps} />
                 </div>
 
                 <div>
@@ -73,11 +74,7 @@ export default function CreateProdcut() {
                     placeholder="SKU"
                     className="rounded"
                   />
-                  <ErrorMessage
-                    name="sku"
-                    component="p"
-                    className="text-red-500 text-sm"
-                  />
+                  <ErrorMessage name="sku" {...errMsjProps} />
                 </div>
 
                 <div>
@@ -96,11 +93,7 @@ export default function CreateProdcut() {
                       <SelectItem value="clothing">Clothing</SelectItem>
                     </SelectContent>
                   </Select>
-                  <ErrorMessage
-                    name="category"
-                    component="p"
-                    className="text-red-500 text-sm"
-                  />
+                  <ErrorMessage name="category" {...errMsjProps} />
                 </div>
               </div>
             </div>
@@ -108,7 +101,7 @@ export default function CreateProdcut() {
             {/* Inventory info */}
             <div className="border pt-2 pb-3 px-3 mt-3 bg-white dark:bg-sidebar">
               <p>Inventory</p>
-              <div className="mt-3 grid grid-cols-4 gap-4">
+              <div className="mt-3 grid grid-cols md:grid-cols-4 gap-4">
                 <div>
                   <label className="text-sm block mb-2 text-gray-600 dark:text-gray-300">
                     Price
@@ -120,11 +113,7 @@ export default function CreateProdcut() {
                     className="rounded [&::-webkit-inner-spin-button]:appearance-none"
                     type="number"
                   />
-                  <ErrorMessage
-                    name="price"
-                    component="p"
-                    className="text-red-500 text-sm"
-                  />
+                  <ErrorMessage name="price" {...errMsjProps} />
                 </div>
 
                 <div>
@@ -138,11 +127,7 @@ export default function CreateProdcut() {
                     className="rounded [&::-webkit-inner-spin-button]:appearance-none"
                     type="number"
                   />
-                  <ErrorMessage
-                    name="quantity"
-                    component="p"
-                    className="text-red-500 text-sm"
-                  />
+                  <ErrorMessage name="quantity" {...errMsjProps} />
                 </div>
 
                 <div>
@@ -186,7 +171,7 @@ export default function CreateProdcut() {
                 </label>
 
                 {/* Image upload box */}
-                <div className="mt-3 grid grid-cols-4 gap-4">
+                <div className="mt-3 grid grid-cols md:grid-cols-4 gap-4">
                   <div className="border-2 border-dashed border-gray-500 rounded p-4 flex flex-col items-center justify-center cursor-pointer h-[200px]">
                     <Input
                       type="file"
