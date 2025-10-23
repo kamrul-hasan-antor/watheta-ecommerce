@@ -1,5 +1,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import AppSideBar from "@/components/AppSideBar";
+import NavBar from "@/components/NavBar";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,14 +20,33 @@ export const metadata = {
   description: "Watheta Ecommerce",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
       >
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <SidebarProvider
+            style={{
+              "--sidebar-width": "12rem",
+              "--sidebar-width-mobile": "20rem",
+            }}
+          >
+            <AppSideBar />
+
+            <main className="w-full">
+              <NavBar />
+              <div className="px-4">{children}</div>
+            </main>
+          </SidebarProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
