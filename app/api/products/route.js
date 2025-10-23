@@ -23,7 +23,11 @@ export async function GET() {
     const data = fs.readFileSync(dataPath, "utf-8");
     const parsedData = ensureDataStructure(JSON.parse(data || "{}"));
 
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     return NextResponse.json(parsedData);
+
+    return {};
   } catch (err) {
     console.error(err);
     return NextResponse.json({ error: "Failed to read data" }, { status: 500 });
