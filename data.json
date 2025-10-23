@@ -1,0 +1,60 @@
+{
+  "products": [
+    {
+      "id": 1761239930257,
+      "productName": "antor",
+      "sku": "ABC",
+      "category": "furniture",
+      "price": "100",
+      "quantity": "200",
+      "active": "true",
+      "description": "test",
+      "productImae": "/uploads/1761239930250-git.jpg"
+    },
+    {
+      "id": 1761240328643,
+      "productName": "computer",
+      "sku": "COMPUTERS",
+      "category": "electronics",
+      "price": "100",
+      "quantity": "200",
+      "active": "true",
+      "description": "test2",
+      "productImae": "/uploads/1761240328640-my-image (1).jpg"
+    },
+    {
+      "id": 1761240628561,
+      "productName": "Phone",
+      "sku": "PHONES",
+      "category": "electronics",
+      "price": "100",
+      "quantity": "200",
+      "active": "false",
+      "description": "test36",
+      "productImae": "/uploads/1761240628558-my theme vs code.png"
+    },
+    {
+      "id": 1761240879449,
+      "productName": "mouse",
+      "sku": "MOUSE",
+      "category": "electronics",
+      "price": "100",
+      "quantity": "200",
+      "active": "true",
+      "description": "test",
+      "productImae": "/uploads/1761240879447-icons8-github-48.png"
+    },
+    {
+      "id": 1761240919201,
+      "productName": "keyboard",
+      "sku": "KEYBOARD",
+      "category": "electronics",
+      "price": "200",
+      "quantity": "300",
+      "active": "false",
+      "description": "test",
+      "productImae": "/uploads/1761240919194-git-color.svg"
+    }
+  ],
+  "orders": []
+}

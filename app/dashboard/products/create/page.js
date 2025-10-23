@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -10,9 +11,13 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
+import { useMutation } from "@tanstack/react-query";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { PlusIcon } from "lucide-react";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import * as Yup from "yup";
 
 export default function CreateProdcut() {
@@ -31,6 +36,44 @@ export default function CreateProdcut() {
     className: "text-red-500 text-sm",
   };
 
+  const mutation = useMutation({
+    mutationFn: async (formData) => {
+      const res = await fetch("/api/products", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Something went wrong");
+      return data;
+    },
+    onSuccess: (data) => {
+      toast.success("Product saved successfully!", {
+        description: "Redirecting to product list",
+        duration: 1500,
+        action: {
+          onClick: () => redirect("/dashboard/products"),
+        },
+      });
+      setTimeout(() => {
+        redirect("/dashboard/products");
+      }, 1500);
+    },
+    onError: (error) => {
+      alert("❌ Error: " + error.message);
+    },
+  });
+
+  const handleAddProducts = (values) => {
+    const formData = new FormData();
+
+    Object.entries(values).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+
+    mutation.mutate(formData);
+  };
+
   return (
     <div>
       <h1 className="text-xl font-semibold">Add Products</h1>
@@ -38,7 +81,7 @@ export default function CreateProdcut() {
       <Formik
         initialValues={initialValues}
         validationSchema={validationSchema}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => handleAddProducts(values)}
         validateOnChange={true}
       >
         {({ setFieldValue, values }) => (
@@ -180,7 +223,7 @@ export default function CreateProdcut() {
                         const file = event.target.files[0];
                         const isImage = file?.type?.includes("image");
                         if (file && file && isImage) {
-                          setFieldValue("productImae", file);
+                          setFieldValue("productImage", file);
                           setImageUrl(URL.createObjectURL(file));
                         }
                       }}
@@ -205,12 +248,9 @@ export default function CreateProdcut() {
             </div>
 
             <div className="pt-1 pb-2 mt-3">
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
-              >
-                Submit
-              </button>
+              <Button type="submit">
+                <PlusIcon /> Add Products
+              </Button>
             </div>
           </Form>
         )}
@@ -242,5 +282,5 @@ const initialValues = {
   quantity: "",
   active: true,
   description: "",
-  productImae: null,
+  productImage: null,
 };

@@ -5,6 +5,8 @@ import NavBar from "@/components/NavBar";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { RenderMounted } from "@/components/RenderMounted";
+import ClientWrapper from "@/components/ClientWrapper";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,27 +31,31 @@ export default async function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
       >
         <RenderMounted>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            <SidebarProvider
-              style={{
-                "--sidebar-width": "12rem",
-                "--sidebar-width-mobile": "20rem",
-              }}
+          <ClientWrapper>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
             >
-              <AppSideBar />
+              <SidebarProvider
+                style={{
+                  "--sidebar-width": "12rem",
+                  "--sidebar-width-mobile": "20rem",
+                }}
+              >
+                <AppSideBar />
 
-              <main className="w-full bg-[#F5F7FA] dark:bg-black">
-                <NavBar />
-                <div className="px-4 py-2">{children}</div>
-              </main>
-            </SidebarProvider>
-          </ThemeProvider>
+                <main className="w-full bg-[#F5F7FA] dark:bg-black">
+                  <NavBar />
+                  <div className="px-4 py-2">{children}</div>
+                </main>
+              </SidebarProvider>
+            </ThemeProvider>
+          </ClientWrapper>
         </RenderMounted>
+
+        <Toaster />
       </body>
     </html>
   );
