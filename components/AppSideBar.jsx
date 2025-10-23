@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { PackageOpen, PlusCircle, List, ChevronRight } from "lucide-react";
 import {
@@ -15,19 +14,16 @@ import {
   SidebarSeparator,
   useSidebar,
 } from "@/components/ui/sidebar";
+
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import Image from "next/image";
 
 export default function AppSideBar() {
-  const [openIndex, setOpenIndex] = useState([]);
   const { state } = useSidebar();
-
-  const toggleOpen = (index) => {
-    setOpenIndex((prev) =>
-      prev?.includes(index)
-        ? prev.filter((item) => item !== index)
-        : prev.push(index)
-    );
-  };
 
   return (
     <Sidebar collapsible="icon">
@@ -48,66 +44,50 @@ export default function AppSideBar() {
         </SidebarMenu>
       </SidebarHeader>
 
-      <SidebarSeparator />
+      <SidebarSeparator className="mx-0" />
 
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {items.map((item, index) => {
-                const isOpen = openIndex.includes(index);
-
-                return (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
-                      asChild
-                      onClick={() => toggleOpen(index)}
-                      className="w-full justify-between text-sm font-medium p-2 rounded-md hover:bg-accent transition"
-                    >
-                      <div className="flex items-center justify-between w-full">
-                        <div className="flex items-center gap-2">
-                          {item.icon}
-
-                          {state === "expanded" && <span>{item.title}</span>}
-                        </div>
-
-                        {item.subItems && state === "expanded" && (
-                          <div
-                            className={`transition-transform duration-300 ${
-                              isOpen ? "rotate-90" : "rotate-0"
-                            }`}
-                          >
-                            <ChevronRight className="w-4 h-4" />
+              {items.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <Collapsible asChild className="group/collapsible">
+                    <div>
+                      {/* Collapsible trigger */}
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton className="w-full justify-between text-sm font-medium p-2 rounded-md hover:bg-accent transition">
+                          <div className="flex items-center gap-2">
+                            {item.icon}
+                            {state === "expanded" && <span>{item.title}</span>}
                           </div>
-                        )}
-                      </div>
-                    </SidebarMenuButton>
+                          {state === "expanded" && (
+                            <ChevronRight className="w-4 h-4 transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                          )}
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
 
-                    {state === "expanded" && (
-                      <div
-                        className={`overflow-hidden transition-[max-height] duration-300 ${
-                          isOpen ? "max-h-40" : "max-h-0"
+                      {/* Collapsible submenu */}
+                      <CollapsibleContent
+                        className={`ml-6 space-y-1 overflow-hidden transition-all duration-300 ${
+                          state === "collapsed" ? "hidden" : ""
                         }`}
                       >
-                        {isOpen && item.subItems && (
-                          <div className="mt-1 flex flex-col gap-1">
-                            {item.subItems.map((sub) => (
-                              <Link
-                                href={sub.to}
-                                key={sub.title}
-                                className="flex items-center gap-2 text-sm p-2 rounded-md hover:bg-accent transition"
-                              >
-                                {sub.icon}
-                                <span>{sub.title}</span>
-                              </Link>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </SidebarMenuItem>
-                );
-              })}
+                        {item.subItems.map((sub) => (
+                          <Link
+                            href={sub.to}
+                            key={sub.title}
+                            className="flex items-center gap-2 text-sm p-2 rounded-md hover:bg-accent transition"
+                          >
+                            {sub.icon}
+                            {state === "expanded" && <span>{sub.title}</span>}
+                          </Link>
+                        ))}
+                      </CollapsibleContent>
+                    </div>
+                  </Collapsible>
+                </SidebarMenuItem>
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
@@ -123,12 +103,12 @@ const items = [
     subItems: [
       {
         title: "Product List",
-        to: "/dashboard/product",
+        to: "/dashboard/products",
         icon: <List className="w-4 h-4 shrink-0" />,
       },
       {
         title: "Add Product",
-        to: "/dashboard/product/create",
+        to: "/dashboard/products/create",
         icon: <PlusCircle className="w-4 h-4 shrink-0" />,
       },
     ],

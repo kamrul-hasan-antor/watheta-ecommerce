@@ -4,6 +4,7 @@ import AppSideBar from "@/components/AppSideBar";
 import NavBar from "@/components/NavBar";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { RenderMounted } from "@/components/RenderMounted";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,26 +28,28 @@ export default async function RootLayout({ children }) {
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <SidebarProvider
-            style={{
-              "--sidebar-width": "12rem",
-              "--sidebar-width-mobile": "20rem",
-            }}
+        <RenderMounted>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
           >
-            <AppSideBar />
+            <SidebarProvider
+              style={{
+                "--sidebar-width": "12rem",
+                "--sidebar-width-mobile": "20rem",
+              }}
+            >
+              <AppSideBar />
 
-            <main className="w-full">
-              <NavBar />
-              <div className="px-4">{children}</div>
-            </main>
-          </SidebarProvider>
-        </ThemeProvider>
+              <main className="w-full bg-[#F5F7FA] dark:bg-black">
+                <NavBar />
+                <div className="px-4 py-2">{children}</div>
+              </main>
+            </SidebarProvider>
+          </ThemeProvider>
+        </RenderMounted>
       </body>
     </html>
   );
